@@ -44,6 +44,8 @@ const AllRoutes = () => {
         <Route  path="/CareHome" element={<CareHome/>}/>
         <Route  path="/addDocs" element={<UploadDocs/>}/>
         <Route path="/myDocs"   element={<Mydocs/>}/>
+        <Route path="/RegUser"   element={<Add_Nurse/>}/>
+
         
 
         ******************** Doctor Part *************************

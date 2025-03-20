@@ -146,15 +146,13 @@ function Appointments() {
       <ToastContainer />
       <header className="header">
         <div className="logo">
-          <h1>HealthCare</h1>
+          <h1>Elder Care</h1>
         </div>
         <nav className="nav">
           <ul>
             <li><a href="#" className="active">Home</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Doctors</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+       
+
           </ul>
         </nav>
       </header>

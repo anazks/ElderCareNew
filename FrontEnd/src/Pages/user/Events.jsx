@@ -47,7 +47,7 @@ function Events() {
 
   return (
     <div className="events-container">
-      <h2 className="events-heading">Upcoming Events & Programs</h2>
+      <h2 className="events-heading">Upcoming  Programs</h2>
       {events.length === 0 ? (
         <p>No events available at the moment.</p>
       ) : (

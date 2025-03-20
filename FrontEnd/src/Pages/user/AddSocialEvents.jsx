@@ -42,10 +42,10 @@ function AddSocialEvents() {
 
   return (
     <div className="event-form-container">
-      <h2>Add Social Event</h2>
+      <h2>Add  Medical Events</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Event Name:</label>
+          <label>Event Medical Event</label>
           <input type="text" value={eventName} onChange={(e) => setEventName(e.target.value)} required />
         </div>
 

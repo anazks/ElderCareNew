@@ -209,7 +209,7 @@ function CareGiverDashboard() {
                                   <span className="task-patient">{task.status}</span>
                                   <span className="task-priority">{task.dueDate}</span>
                                   <span className="task-priority">{task.email}</span>
-                                  <button  classsName="taskButton">Notify</button>
+                                  <button  classsName="taskButton" style={{width:"140px"}} ><a href="http://localhost:3001/" target='blank' style={{color:"white",textDecoration:"none"}}>Notify</a></button>
                                 </div> 
                               </div>
                             </div>

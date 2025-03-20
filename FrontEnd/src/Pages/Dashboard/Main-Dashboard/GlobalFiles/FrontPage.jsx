@@ -64,7 +64,7 @@ const FrontPage = () => {
           </div>
         </div>
 
-        <FeedBack/>
+        {/* <FeedBack/> */}
       </div>
     </div>
   );

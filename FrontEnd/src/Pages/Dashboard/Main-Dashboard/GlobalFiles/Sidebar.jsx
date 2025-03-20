@@ -144,7 +144,7 @@ const Sidebar = () => {
                 </div>
               </Link>
             ) : null}
-            {user?.userType === "admin" ? (
+            {/* {user?.userType === "admin" ? (
               <Link className="link" activeclassname="active" to={"/addoctor"}>
                 <div className="icon">
                   <AiOutlineUserAdd className="mainIcon" />
@@ -156,7 +156,7 @@ const Sidebar = () => {
                   Add Staff
                 </div>
               </Link>
-            ) : null}
+            ) : null} */}
             {user?.userType === "admin" ? (
               <Link className="link" activeclassname="active" to={"/addnurse"}>
                 <div className="icon">
@@ -166,7 +166,7 @@ const Sidebar = () => {
                   style={{ display: isOpen ? "block" : "none" }}
                   className="link_text"
                 >
-                  Add Student
+                  Add User
                 </div>
               </Link>
             ) : null}
@@ -253,7 +253,7 @@ const Sidebar = () => {
                 </div>
               </Link>
             ) : null}
-            <Link className="link" activeclassname="active" to={"/rooms"}>
+            {/* <Link className="link" activeclassname="active" to={"/rooms"}>
               <div className="icon">
                 <MdBedroomChild className="mainIcon" />
               </div>
@@ -263,7 +263,7 @@ const Sidebar = () => {
               >
                 Meetings
               </div>
-            </Link>
+            </Link> */}
             {user?.userType === "doctor" ? (
               <Link className="link" activeclassname="active" to={"/reports"}>
                 <div className="icon">

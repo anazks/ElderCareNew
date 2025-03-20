@@ -168,8 +168,9 @@ return (
         {/* <div className="leftside">
           <img src={banner} alt="banner" />
         </div> */}
-    
+
         <div className="rightside">
+          <a href="/CareGiver" style={{color:"black",textDecoration:"none"}}>Are You a Care Giver ?</a>
           <h1>Login</h1>
           <div className="radiogroup">
             <Radio.Group
@@ -210,7 +211,7 @@ return (
                 required
               />
               <button type="submit">{Loading ? "Loading..." : "Submit"}</button>
-              <a href="/addoctor">Register Now</a>
+              
               {/* <p>
                 Forget Password?{" "}
                 <span onClick={showDrawer}>
