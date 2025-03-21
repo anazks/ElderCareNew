@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { message, Upload } from "antd";
@@ -14,7 +14,10 @@ const Add_Nurse = () => {
   const { data } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-
+  useEffect(() => {
+      // window.location.reload();
+     
+  }, []); 
   const InitData = {
     nurseName: "",
     age: "",
@@ -76,7 +79,7 @@ const Add_Nurse = () => {
         <div className="registration-content">
           <div className="registration-header">
             <h1>User Registration</h1>
-            <p>Complete the form below to register a new student</p>
+            <p>Complete the form below to register a new user</p>
           </div>
           
           <div className="registration-form-container">
@@ -241,7 +244,7 @@ const Add_Nurse = () => {
                     <LoadingOutlined /> Processing...
                   </>
                 ) : (
-                  "Register Student"
+                  "Register User"
                 )}
               </button>
             </form>

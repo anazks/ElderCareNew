@@ -18,7 +18,9 @@ import ChartModal from "../../../../Components/projectRelated/ChartModal";
 import { useDispatch, useSelector } from "react-redux";
 
 const FrontPage = () => {
-  
+  useEffect(() => {
+      
+  },[])
   const {
     data: { user },
   } = useSelector((state) => state.auth);

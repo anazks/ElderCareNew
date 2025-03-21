@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AdminDashboard.css'; // We'll define this CSS file below
+import axios from 'axios';
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
-  
+  const [tasks, setTasks] = useState([]);
+  useEffect( async() => {
+    const tasksResponse = await axios.get('http://localhost:5000/nurses/getFullTask');
+    console.log(tasksResponse.data.tasks,"tasksResponse")
+    setTasks(tasksResponse.data.tasks);
+  }
+  , []);
   // Sample data for the dashboard
   const stats = [
     { title: 'Total Users', value: '1,254', icon: '👥' },
@@ -18,6 +25,7 @@ function AdminDashboard() {
     { id: 3, user: 'Mike Johnson', action: 'Updated profile', time: '5 hours ago' },
     { id: 4, user: 'Sarah Williams', action: 'Submitted a report', time: 'Yesterday' }
   ];
+
 
   return (
     <div className="dashboard-container">
@@ -39,52 +47,21 @@ function AdminDashboard() {
             className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
             onClick={() => setActiveTab('overview')}
           >
-            Overview
+            Tasks
           </button>
-          <button 
-            className={`tab-button ${activeTab === 'users' ? 'active' : ''}`}
-            onClick={() => setActiveTab('users')}
-          >
-            Users
-          </button>
-          <button 
-            className={`tab-button ${activeTab === 'projects' ? 'active' : ''}`}
-            onClick={() => setActiveTab('projects')}
-          >
-            Projects
-          </button>
-          <button 
-            className={`tab-button ${activeTab === 'settings' ? 'active' : ''}`}
-            onClick={() => setActiveTab('settings')}
-          >
-            Settings
-          </button>
+        
         </div>
         
-        {/* Stats Cards */}
-        <div className="stats-container">
-          {stats.map((stat, index) => (
-            <div key={index} className="stat-card">
-              <div className="stat-content">
-                <div>
-                  <p className="stat-title">{stat.title}</p>
-                  <p className="stat-value">{stat.value}</p>
-                </div>
-                <div className="stat-icon">{stat.icon}</div>
-              </div>
-            </div>
-          ))}
-        </div>
         
         {/* Recent Activity */}
         <div className="activity-card">
           <h2 className="section-title">Recent Activity</h2>
           <div className="activity-list">
-            {recentActivities.map((activity) => (
-              <div key={activity.id} className="activity-item">
+            {tasks.map((activity) => (
+              <div className="activity-item">
                 <div className="activity-details">
-                  <p className="activity-user">{activity.user}</p>
-                  <p className="activity-action">{activity.action}</p>
+                  <p className="activity-user">{activity.email}</p>
+                  <p className="activity-action">{activity.name}</p>
                 </div>
                 <span className="activity-time">{activity.time}</span>
               </div>

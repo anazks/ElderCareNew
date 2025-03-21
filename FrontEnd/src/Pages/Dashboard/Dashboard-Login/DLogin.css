@@ -1,13 +1,16 @@
 /* Add these styles to your DLogin.css file */
 
 .mainLoginPage {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   padding: 20px;
-  background-color: #fff;
+  background-color: #fff; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btnDiv {
@@ -18,7 +21,23 @@
   max-width: 1200px;
   padding: 20px 0;
 }
-
+.careGiverLogin{
+  width: 400px;
+  height: 100px;
+}
+.Gobtn{
+  width: 190px;
+  height: 50px;
+  background-color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.careGiverLogin a{
+  text-decoration: none;
+  color: #333;
+  font-size: 2rem;
+}
 .btnDiv button {
   background-color: #f0f0f0;
   color: #333;

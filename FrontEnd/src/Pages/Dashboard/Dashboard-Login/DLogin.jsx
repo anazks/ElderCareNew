@@ -165,12 +165,7 @@ return (
       
       
       <div className="loginContainer">
-        {/* <div className="leftside">
-          <img src={banner} alt="banner" />
-        </div> */}
-
         <div className="rightside">
-          <a href="/CareGiver" style={{color:"black",textDecoration:"none"}}>Are You a Care Giver ?</a>
           <h1>Login</h1>
           <div className="radiogroup">
             <Radio.Group
@@ -231,7 +226,15 @@ return (
               </Drawer>
             </form>
           </div>
+          <div>
+          </div>
+           
         </div>
+      </div>
+      <div className="careGiverLogin">
+
+      <a href="/CareGiver" style={{color:"black",textDecoration:"none"}}><h2>Are You a Care Giver ?</h2></a>
+      <button className="Gobtn"><a href="/CareGiver"></a>GO Now</button>
       </div>
     </div>
   </>

@@ -1,933 +1,319 @@
-/* General Styling */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-  }
-  
-  .projects-container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-  }
-  
-  .section-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  /* Row Layout */
-  .projects-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  /* Card Styling */
-  .project-card {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    width: 480px;
-    padding: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-  }
-  
-  .project-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  /* Header */
-  .project-header {
-    margin-bottom: 10px;
-  }
-  
-  .project-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #2c3e50;
-  }
-  
-  .project-date {
-    font-size: 14px;
-    color: #7f8c8d;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  /* Details */
-  .project-details {
-    margin-bottom: 12px;
-  }
-  
-  .project-link a {
-    color: #3498db;
-    text-decoration: none;
-    margin-left: 6px;
-  }
-  
-  .project-status {
-    font-size: 14px;
-    margin-top: 6px;
-  }
-  
-  .project-status.completed {
-    color: #2ecc71;
-  }
-  
-  .project-status.started {
-    color: #f39c12;
-  }
-  
-  .project-status.pending {
-    color: #e74c3c;
-  }
-  
-  /* Team Members */
-  .project-team {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-  
-  .team-member {
-    background-color: #ecf0f1;
-    padding: 6px 10px;
-    border-radius: 50%;
-    font-size: 14px;
-    font-weight: 600;
-    color: #2c3e50;
-  }
-  
-  /* Footer */
-  .project-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 12px;
-    font-size: 14px;
-    color: #7f8c8d;
-  }
-  .view-buttons {
-    background-color: green;
-    color: #fff;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 14px;
-    transition: background-color 0.2s;
-  }
-  
-  .view-button {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 14px;
-    transition: background-color 0.2s;
-  }
-  
-  .view-button:hover {
-    background-color: #2980b9;
-  }
-  
-  /* Loading and Error */
-  .loading,
-  .error-message,
-  .empty-message {
-    text-align: center;
-    padding: 20px;
-    font-size: 16px;
-    color: #e74c3c;
-  }
-  /* GitHub Commits Box Styling */
-
-.github-box {
-    background-color: #f6f8fa;
-    border: 1px solid #e1e4e8;
-    border-radius: 6px;
-    padding: 20px;
-    margin: 20px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
-  
-  .github-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #24292e;
-    margin-top: 0;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #e1e4e8;
-  }
-  
-  .github-loading, .github-error {
-    padding: 12px;
-    text-align: center;
-    color: #586069;
-    font-style: italic;
-  }
-  
-  .github-error {
-    color: #cb2431;
-    background-color: #ffeef0;
-    border-radius: 4px;
-  }
-  
-  .github-commit-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .github-commit-items {
-    display: flex;
-    padding: 16px;
-    border-bottom: 1px solid #e1e4e8;
-    position: relative;
-  }
-  
-  .github-commit-item:last-child {
-    border-bottom: none;
-  }
-  
-  .github-commit-item:hover {
-    background-color: #f1f4f8;
-  }
-  .btn-success {
-    background-color: #28a745; /* Green color */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 8px;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-success a {
-    color: white;
-    text-decoration: none;
-  }
-  
-  .btn-success:hover {
-    background-color: #218838; /* Darker green on hover */
-  }
-  
-  .btn-success:active {
-    background-color: #1e7e34;
-  }
-  
-  .userIcon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 12px;
-    border: 2px solid #e1e4e8;
-    flex-shrink: 0;
-  }
- 
-  .commit-author {
-    color: #586069;
-    font-size: 13px;
-    margin: 0 0 6px 0;
-  }
-  
-  .github-commit-item p {
-    margin: 0 0 4px 0;
-    font-size: 13px;
-    color: #586069;
-  }
-  
-  .github-commit-item span {
-    color: #0366d6;
-    font-weight: 500;
-  }
-  
-  .github-link {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    display: inline-block;
-    padding: 4px 12px;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 20px;
-    color: #24292e;
-    background-color: #fafbfc;
-    border: 1px solid #e1e4e8;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.2s;
-  }
-  
-  .github-link:hover {
-    background-color: #f3f4f6;
-    text-decoration: none;
-  }
-  
-  /* Date formatting */
-  .github-commit-item p:nth-child(3) {
-    margin-top: 8px;
-    font-size: 12px;
-  }
-  
-  /* SHA formatting */
-  .github-commit-item p:nth-child(4) {
-    font-family: monospace;
-    font-size: 12px;
-    color: #6a737d;
-    background-color: #f6f8fa;
-    padding: 2px 5px;
-    border-radius: 3px;
-    display: inline-block;
-    margin-top: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 200px;
-  }
-  
-  /* Responsive styles */
-  @media (max-width: 768px) {
-    .github-commit-item {
-      flex-direction: column;
-      padding-bottom: 40px;
-    }
-    
-    .userIcon {
-      margin-bottom: 12px;
-    }
-    
-    .github-link {
-      top: unset;
-      bottom: 12px;
-      right: 16px;
-    }
-  }
-
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-  }
-  
-  .modal-body label {
-    display: block;
-    margin-top: 10px;
-  }
-  
-  .modal-body textarea,
-  .modal-body input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .modal-footer {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .modal-footer button {
-    padding: 8px 16px;
-    margin-left: 8px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .modal-footer button:hover {
-    background-color: #0056b3;
-  }
-  /* Main container styling */
-.milestone-container {
-  max-width: 800px;
+/* Base Dashboard Styles */
+.dashboard-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  color: #333;
-  background-color: #f9fafb;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: #f5f7fb;
+  min-height: 100vh;
+  padding: 20px;
 }
 
-/* Header styling */
-.milestone-header {
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.milestone-header h1 {
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #1e293b;
-  margin-bottom: 0.5rem;
-}
-
-.milestone-header p {
-  color: #64748b;
-  font-size: 0.875rem;
-}
-
-/* Card styling for milestone items */
-.milestone-card {
-  background: #fff;
-  border-radius: 6px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  border-left: 4px solid #3b82f6;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.milestone-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Status indicator */
-.status-indicator {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.25rem 0.5rem;
-  border-radius: 9999px;
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-}
-
-.status-new {
-  background-color: #e0f2fe;
-  color: #0369a1;
-}
-
-/* Milestone title */
-.milestone-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #1e293b;
-  margin-bottom: 0.5rem;
-}
-
-/* Milestone date */
-.milestone-date {
-  font-size: 0.875rem;
-  color: #64748b;
-  margin-bottom: 1rem;
-}
-
-/* Feedback section */
-.milestone-feedback {
-  background-color: #f1f5f9;
-  padding: 1rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  color: #475569;
-  margin-top: 1rem;
-}
-
-.milestone-feedback h4 {
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #334155;
-}
-
-/* Project ID badge */
-.project-id {
-  display: inline-block;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  background-color: #f1f5f9;
-  border-radius: 4px;
-  color: #64748b;
-  font-family: monospace;
-}
-
-/* Footer with additional info */
-.milestone-footer {
+.dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
-  font-size: 0.75rem;
-  color: #94a3b8;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-/* Action buttons */
-.action-buttons {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-}
-
-.btn {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.btn-primary {
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-}
-
-.btn-primary:hover {
-  background-color: #2563eb;
-}
-
-.btn-secondary {
-  background-color: white;
-  color: #64748b;
-  border: 1px solid #e2e8f0;
-}
-
-.btn-secondary:hover {
-  background-color: #f8fafc;
-}
-
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .milestone-container {
-    padding: 1rem;
-  }
-  
-  .milestone-card {
-    padding: 1rem;
-  }
-  
-  .milestone-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-}
-/* GitHub Box Container */
-.github-box {
-  background-color: #f6f8fa;
-  border: 1px solid #e1e4e8;
-  border-radius: 6px;
-  padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Title Styling with Git Icon */
-.github-title {
-  color: #24292e;
-  font-size: 20px;
-  margin-top: 0;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #e1e4e8;
-  padding-bottom: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.github-title::before {
-  content: "";
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  margin-right: 10px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%2324292e' d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-/* Loading & Error Messages with Icons */
-.github-loading, .github-error {
-  padding: 14px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  animation: pulse 1.5s infinite ease-in-out;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.7; }
-  50% { opacity: 1; }
-  100% { opacity: 0.7; }
-}
-
-.github-loading {
-  background-color: #f1f8ff;
-  color: #0366d6;
-}
-
-.github-loading::before {
-  content: "";
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  margin-right: 10px;
-  border: 2px solid #0366d6;
-  border-radius: 50%;
-  border-top-color: transparent;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.github-error {
-  background-color: #ffeef0;
-  color: #d73a49;
-}
-
-.github-error::before {
-  content: "";
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  margin-right: 10px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23d73a49' d='M8 0a8 8 0 100 16A8 8 0 008 0zm0 14.5a6.5 6.5 0 110-13 6.5 6.5 0 010 13zm0-11a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 3.5zm0 7a1 1 0 100-2 1 1 0 000 2z'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-/* Commit List */
-.github-commit-list {
-  list-style: none;
-  padding: 0;
+.dashboard-title {
+  font-size: 24px;
+  color: #333;
   margin: 0;
 }
 
-/* Individual Commit Items with Animation */
-.github-commit-item {
-  background-color: #ffffff;
-  border: 1px solid #e1e4e8;
-  border-radius: 4px;
-  padding: 16px;
-  margin-bottom: 15px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  animation: slideIn 0.4s ease-out forwards;
-  opacity: 0;
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.github-commit-item:nth-child(1) { animation-delay: 0.1s; }
-.github-commit-item:nth-child(2) { animation-delay: 0.2s; }
-.github-commit-item:nth-child(3) { animation-delay: 0.3s; }
-.github-commit-item:nth-child(4) { animation-delay: 0.4s; }
-.github-commit-item:nth-child(5) { animation-delay: 0.5s; }
-
-@keyframes slideIn {
-  from { 
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
+.welcome-text {
+  font-size: 14px;
+  color: #666;
 }
 
-.github-commit-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.github-commit-item:last-child {
-  margin-bottom: 0;
-}
-
-/* Commit Message with Task Label */
-.commit-message {
-  margin-top: 0;
-  margin-bottom: 14px;
-}
-
-.commit-message span[style*="color:green"] {
-  background-color: #e6ffed;
-  color: #22863a !important;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  display: inline-block;
-  margin-bottom: 6px;
-}
-
-.commit-message h2 {
-  margin-top: 6px;
-  margin-bottom: 0;
+.notification-btn {
+  background: none;
+  border: none;
   font-size: 18px;
-  line-height: 1.4;
-  color: #24292e;
-}
-
-.commit-message h2 span {
-  word-break: break-word;
-}
-
-/* Author & Date Info with Icons */
-.github-commit-item p {
-  color: #586069;
-  font-size: 14px;
-  margin: 8px 0;
-  padding-left: 22px;
-  position: relative;
-}
-
-/* Author icon */
-.github-commit-item p:nth-of-type(2)::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 2px;
-  width: 16px;
-  height: 16px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23586069' d='M8 0a8 8 0 100 16A8 8 0 008 0zm0 14.5a6.5 6.5 0 110-13 6.5 6.5 0 010 13zm0-9.25a2.75 2.75 0 100 5.5 2.75 2.75 0 000-5.5zm0 7a4.25 4.25 0 01-3.5-1.75c0-.75 2.25-1.75 3.5-1.75s3.5 1 3.5 1.75a4.25 4.25 0 01-3.5 1.75z'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-}
-
-/* Date icon */
-.github-commit-item p:nth-of-type(3)::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 2px;
-  width: 16px;
-  height: 16px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23586069' d='M4.75 0a.75.75 0 01.75.75V2h5V.75a.75.75 0 011.5 0V2h1.25c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0113.25 16H2.75A1.75 1.75 0 011 14.25V3.75C1 2.784 1.784 2 2.75 2H4V.75A.75.75 0 014.75 0zm0 3.5h8.5a.25.25 0 01.25.25V6h-9V3.75a.25.25 0 01.25-.25zm-2 3.25v7.5c0 .138.112.25.25.25h10.5a.25.25 0 00.25-.25v-7.5z'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-}
-
-/* View Commit Button */
-.btn-success {
-  background-color: #2ea44f;
-  border: 1px solid rgba(27, 31, 35, 0.15);
-  border-radius: 6px;
-  box-shadow: 0 1px 0 rgba(27, 31, 35, 0.1);
-  color: #fff;
   cursor: pointer;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  background-color: #5e72e4;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Tab Styles */
+.tab-container {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+  overflow-x: auto;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  color: #666;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.tab-button.active {
+  color: #5e72e4;
+  font-weight: 600;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -11px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #5e72e4;
+}
+
+/* Stats Cards */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.stat-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-title {
+  color: #666;
   font-size: 14px;
-  font-weight: 500;
-  padding: 5px 16px;
-  transition: background-color 0.2s ease;
+  margin: 0 0 5px 0;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.stat-icon {
+  font-size: 28px;
+  opacity: 0.8;
+}
+
+/* Activity Card */
+.activity-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 18px;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.activity-user {
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 5px 0;
+}
+
+.activity-action {
+  color: #666;
+  margin: 0;
+}
+
+.activity-time {
+  color: #888;
+  font-size: 12px;
+}
+
+.view-all-btn {
+  margin-top: 15px;
+  padding: 8px 15px;
+  background-color: #f0f2f5;
+  border: none;
+  border-radius: 4px;
+  color: #5e72e4;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.view-all-btn:hover {
+  background-color: #e0e5f0;
+}
+
+/* Tasks Table Styles */
+.tasks-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.tasks-table {
+  width: 100%;
+  border-collapse: collapse;
   margin-top: 10px;
 }
 
-.btn-success:hover {
-  background-color: #2c974b;
+.tasks-table th,
+.tasks-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.btn-success:active {
-  background-color: #298e46;
-  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.2);
-}
-
-.btn-success a {
-  color: #fff;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-}
-
-.btn-success a::before {
-  content: "";
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  margin-right: 6px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23ffffff' d='M1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0zM8 0a8 8 0 100 16A8 8 0 008 0zm3.28 5.78a.75.75 0 00-1.06-1.06l-5.5 5.5a.75.75 0 101.06 1.06l5.5-5.5z'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .github-commit-item {
-    padding: 12px;
-  }
-  
-  .commit-message h2 {
-    font-size: 16px;
-  }
-  
-  .btn-success {
-    width: 100%;
-    text-align: center;
-  }
-  
-  .btn-success a {
-    justify-content: center;
-  }
-}
-/* Notification Button */
-.notification-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
+.tasks-table th {
+  background-color: #f9fafc;
+  color: #555;
+  font-weight: 600;
   font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.notification-btn:hover {
-  background-color: #4338ca;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
-  transform: translateY(-1px);
+.tasks-table tr:hover {
+  background-color: #f9fafc;
 }
 
-.notification-btn:active {
-  background-color: #3730a3;
-  transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+.task-note {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Bell Icon */
-.notification-icon {
-  font-size: 16px;
-  animation: subtle-shake 5s ease-in-out infinite;
-  transform-origin: top center;
+.priority-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-/* Add a subtle bell animation */
-@keyframes subtle-shake {
-  0%, 80%, 100% {
-    transform: rotate(0);
-  }
-  85% {
-    transform: rotate(8deg);
-  }
-  90% {
-    transform: rotate(-8deg);
-  }
-  95% {
-    transform: rotate(4deg);
-  }
+.priority-high {
+  background-color: #fee2e2;
+  color: #ef4444;
 }
-.submitWork {
-  background-color: #4CAF50;
+
+.priority-medium {
+  background-color: #fef3c7;
+  color: #f59e0b;
+}
+
+.priority-low {
+  background-color: #e0f2fe;
+  color: #0ea5e9;
+}
+
+.actions-cell {
+  white-space: nowrap;
+}
+
+.action-btn {
+  background: none;
   border: none;
-  border-radius: 4px;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  margin-right: 5px;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
 }
 
-.submitWork:hover {
-  background-color: #45a049;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+.action-btn:hover {
+  background-color: #f0f2f5;
 }
 
-.submitWork:active {
-  background-color: #3e8e41;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  transform: translateY(1px);
-}
-/* When there are new notifications, add the class "has-notifications" */
-.notification-btn.has-notifications .notification-icon {
-  animation: active-shake 2s ease-in-out infinite;
-  position: relative;
+.edit-btn:hover {
+  background-color: #e0f2fe;
 }
 
-/* More noticeable animation for when there are notifications */
-@keyframes active-shake {
-  0%, 50%, 100% {
-    transform: rotate(0);
-  }
-  55% {
-    transform: rotate(12deg);
-  }
-  60% {
-    transform: rotate(-12deg);
-  }
-  65% {
-    transform: rotate(8deg);
-  }
-  70% {
-    transform: rotate(-8deg);
-  }
-  75% {
-    transform: rotate(4deg);
-  }
-  80% {
-    transform: rotate(-4deg);
-  }
+.delete-btn:hover {
+  background-color: #fee2e2;
 }
 
-/* Add a dot indicator for new notifications */
-.notification-btn.has-notifications .notification-icon::after {
-  content: '';
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background-color: #ef4444;
-  border-radius: 50%;
-  top: 0;
-  right: -2px;
-  border: 1px solid white;
+/* Loading and Error States */
+.loading-message, 
+.error-message,
+.no-tasks-message {
+  text-align: center;
+  padding: 20px;
+  color: #666;
 }
 
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .notification-btn {
-    padding: 6px 12px;
-    font-size: 13px;
+.error-message {
+  color: #ef4444;
+}
+
+/* Tab Content */
+.tab-content {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+  
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .user-info {
+    width: 100%;
+    justify-content: flex-end;
   }
 }

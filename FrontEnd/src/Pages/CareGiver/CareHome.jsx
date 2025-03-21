@@ -1,15 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { FaWhatsapp, FaClipboardList, FaUserMd, FaPills, FaBell, FaCalendarCheck } from 'react-icons/fa';
+import { 
+  FaWhatsapp, 
+  FaClipboardList, 
+  FaUserMd, 
+  FaPills, 
+  FaBell, 
+  FaCalendarCheck, 
+  FaPhone, 
+  FaVideo, 
+  FaMicrophone, 
+  FaMicrophoneSlash, 
+  FaVideoSlash,
+  FaPhoneSlash 
+} from 'react-icons/fa';
 import './CaregiverDashboard.css';
 import BlogAdd from '../user/BlogAdd';
 import AddSocialEvents from '../user/AddSocialEvents';
 import AppointMents from '../user/AppointMents';
+import { useNavigate } from 'react-router-dom';
 
 function CareGiverDashboard() {
+  const navigate = useNavigate();
+
   const [patients, setPatients] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [activeView, setActiveView] = useState('patients');
+  
+  // Call states
+  const [calling, setCalling] = useState(false);
+  const [currentCall, setCurrentCall] = useState(null);
+  const [isVideoCall, setIsVideoCall] = useState(false);
+  const [micEnabled, setMicEnabled] = useState(true);
+  const [cameraEnabled, setCameraEnabled] = useState(true);
+  const [callStatus, setCallStatus] = useState('connecting'); // connecting, ongoing, ended
+  const [callDuration, setCallDuration] = useState(0);
+  
+  // Video refs
+  const localVideoRef = useRef(null);
+  const remoteVideoRef = useRef(null);
+  const callTimerRef = useRef(null);
+  const localStreamRef = useRef(null);
   
   const [loading, setLoading] = useState(true);
   const [newTask, setNewTask] = useState({ 
@@ -35,7 +66,8 @@ function CareGiverDashboard() {
           patientName: task.name,
           description: task.notes,
           dueDate: task.time,
-          email :task.email,
+          email: task.email,
+          phone: task.mobile || "123-456-7890", // Added default phone if not available
           status: task.helpNeeded ? 'pending' : 'completed',
           priority: task.priority === 'normal' ? 'medium' : task.priority
         }));
@@ -51,6 +83,17 @@ function CareGiverDashboard() {
     fetchData();
   }, []);
   
+  useEffect(() => {
+    // Cleanup function for call timer and media streams
+    return () => {
+      if (callTimerRef.current) {
+        clearInterval(callTimerRef.current);
+      }
+      if (localStreamRef.current) {
+        localStreamRef.current.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, []);
 
   const handleAddTask = (e) => {
     e.preventDefault();
@@ -82,8 +125,261 @@ function CareGiverDashboard() {
     }));
   };
 
+  const CarLogout = () => {
+    try {
+      navigate('/');
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  // Function to start call timer
+  const startCallTimer = () => {
+    setCallDuration(0);
+    callTimerRef.current = setInterval(() => {
+      setCallDuration(prev => prev + 1);
+    }, 1000);
+  };
+
+  // Format call duration to mm:ss
+  const formatCallDuration = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Function to handle audio call
+  const handleCall = async (taskId, videoEnabled = false) => {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+    
+    setCalling(true);
+    setCurrentCall(task);
+    setIsVideoCall(videoEnabled);
+    setCallStatus('connecting');
+    
+    try {
+      // Call API to initiate call
+      const response = await axios.post('http://localhost:5000/calls/initiate', {
+        recipientName: task.patientName,
+        recipientPhone: task.phone,
+        recipientEmail: task.email,
+        taskId: task.id,
+        videoEnabled
+      });
+      
+      console.log('Call initiated:', response.data);
+      
+      // For video calls, access user media
+      if (videoEnabled) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+          localStreamRef.current = stream;
+          
+          if (localVideoRef.current) {
+            localVideoRef.current.srcObject = stream;
+          }
+          
+          // Simulate remote video after 2 seconds (in a real app, this would come from WebRTC)
+          setTimeout(() => {
+            // In a real implementation, this would be the peer connection stream
+            if (remoteVideoRef.current) {
+              remoteVideoRef.current.srcObject = new MediaStream();
+              // Just a placeholder - in real app this would be the remote user's stream
+            }
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to get user media:', err);
+          setCameraEnabled(false);
+        }
+      }
+      
+      // Start call timer
+      startCallTimer();
+      
+      // Simulate call connected
+      setTimeout(() => {
+        setCallStatus('ongoing');
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Error initiating call:', error);
+      endCall();
+      
+      // Show error message to user
+      alert('Failed to initiate call. Please try again.');
+    }
+  };
+
+  // Function to toggle microphone
+  const toggleMicrophone = () => {
+    if (localStreamRef.current) {
+      localStreamRef.current.getAudioTracks().forEach(track => {
+        track.enabled = !track.enabled;
+        setMicEnabled(track.enabled);
+      });
+    } else {
+      setMicEnabled(!micEnabled);
+    }
+  };
+
+  // Function to toggle camera
+  const toggleCamera = () => {
+    if (localStreamRef.current) {
+      localStreamRef.current.getVideoTracks().forEach(track => {
+        track.enabled = !track.enabled;
+        setCameraEnabled(track.enabled);
+      });
+    } else {
+      setCameraEnabled(!cameraEnabled);
+    }
+  };
+
+  // Function to end call
+  const endCall = () => {
+    setCallStatus('ended');
+    
+    // Stop call timer
+    if (callTimerRef.current) {
+      clearInterval(callTimerRef.current);
+      callTimerRef.current = null;
+    }
+    
+    // Stop all media tracks
+    if (localStreamRef.current) {
+      localStreamRef.current.getTracks().forEach(track => track.stop());
+      localStreamRef.current = null;
+    }
+    
+    // Simulate ending animation then reset
+    setTimeout(() => {
+      setCalling(false);
+      setCurrentCall(null);
+      setIsVideoCall(false);
+      setCallDuration(0);
+    }, 1000);
+  };
+
+  // Function to handle video call
+  const handleVideoCall = (taskId) => {
+    handleCall(taskId, true);
+  };
+
+  // Function to handle notification
+  const handleNotify = async (taskId) => {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+    
+    try {
+      // Send notification via API
+      const response = await axios.post('http://localhost:5000/notifications/send', {
+        recipientName: task.patientName,
+        recipientEmail: task.email,
+        taskId: task.id,
+        message: `Reminder: ${task.description}`
+      });
+      
+      console.log('Notification sent:', response.data);
+      
+      // Update task to show notification sent
+      setTasks(tasks.map(t => {
+        if (t.id === taskId) {
+          return { ...t, notified: true };
+        }
+        return t;
+      }));
+      
+      // Open notification portal in new tab
+      window.open('http://localhost:3001/', '_blank');
+    } catch (error) {
+      console.error('Error sending notification:', error);
+      
+      // Still open the notification portal even if API call fails
+      window.open('http://localhost:3001/', '_blank');
+    }
+  };
+
   return (
     <div className="dashboard-container">
+      {calling && (
+        <div className="call-overlay">
+          <div className={`call-dialog ${isVideoCall ? 'video-call' : 'audio-call'}`}>
+            {isVideoCall ? (
+              <div className="video-container">
+                <div className="remote-video-wrapper">
+                  {callStatus === 'connecting' ? (
+                    <div className="connecting-animation">
+                      <div className="connecting-dot"></div>
+                      <div className="connecting-dot"></div>
+                      <div className="connecting-dot"></div>
+                    </div>
+                  ) : null}
+                  <video 
+                    ref={remoteVideoRef} 
+                    className="remote-video" 
+                    autoPlay 
+                    playsInline
+                  >
+                    Your browser does not support video.
+                  </video>
+                  <div className="remote-user-name">{currentCall?.patientName}</div>
+                  <div className="call-duration">{formatCallDuration(callDuration)}</div>
+                </div>
+                <div className="local-video-wrapper">
+                  <video 
+                    ref={localVideoRef} 
+                    className="local-video" 
+                    autoPlay 
+                    playsInline 
+                    muted
+                  >
+                    Your browser does not support video.
+                  </video>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="call-avatar">
+                  {currentCall?.patientName?.charAt(0) || "U"}
+                </div>
+                <h3>Call with {currentCall?.patientName}</h3>
+                <p>Phone: {currentCall?.phone}</p>
+                <div className="call-status">
+                  {callStatus === 'connecting' ? 'Connecting...' : 
+                   callStatus === 'ongoing' ? formatCallDuration(callDuration) : 
+                   'Call ended'}
+                </div>
+              </>
+            )}
+            
+            <div className="call-controls">
+              {isVideoCall && (
+                <>
+                  <button 
+                    className={`control-btn ${!micEnabled ? 'disabled' : ''}`} 
+                    onClick={toggleMicrophone}
+                  >
+                    {micEnabled ? <FaMicrophone /> : <FaMicrophoneSlash />}
+                  </button>
+                  <button 
+                    className={`control-btn ${!cameraEnabled ? 'disabled' : ''}`} 
+                    onClick={toggleCamera}
+                  >
+                    {cameraEnabled ? <FaVideo /> : <FaVideoSlash />}
+                  </button>
+                </>
+              )}
+              <button 
+                className="control-btn end-call" 
+                onClick={endCall}
+              >
+                <FaPhoneSlash />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className="dashboard-sidebar">
         <div className="dashboard-logo">
           <h3>CareConnect</h3>
@@ -126,8 +422,9 @@ function CareGiverDashboard() {
         <div className="dashboard-header">
           <h2>Caregiver Dashboard</h2>
           <div className="user-info">
-            <span>Sarah Miller, RN</span>
+            <span>Care Giver</span>
             <div className="user-avatar">SM</div>
+            <span onClick={()=>CarLogout()}>Logout</span>
           </div>
         </div>
 
@@ -169,9 +466,30 @@ function CareGiverDashboard() {
                               <a href={`https://wa.me/${patient.mobile}`} target="_blank" rel="noopener noreferrer" className="action-button whatsapp">
                                 <FaWhatsapp />
                               </a>
-                              {/* <button className="action-button view" onClick={() => alert(`View details for ${patient.patientName}`)}>
-                                View
-                              </button> */}
+                              <button 
+                                className="action-button call"
+                                onClick={() => handleCall({
+                                  id: patient._id,
+                                  patientName: patient.nurseName,
+                                  phone: patient.mobile,
+                                  email: patient.email
+                                })}
+                                title="Voice Call"
+                              >
+                                <FaPhone />
+                              </button>
+                              <button 
+                                className="action-button video-call"
+                                onClick={() => handleVideoCall({
+                                  id: patient._id,
+                                  patientName: patient.nurseName,
+                                  phone: patient.mobile,
+                                  email: patient.email
+                                })}
+                                title="Video Call"
+                              >
+                                <FaVideo />
+                              </button>
                             </td>
                           </tr>
                         ))}
@@ -185,16 +503,14 @@ function CareGiverDashboard() {
                 <div className="tasks-view">
                   <div className="tasks-header">
                     <h3>Daily Tasks</h3>
-                    <div className="date-display">Thursday, March 20, 2025</div>
+                    <div className="date-display">Friday, March 21, 2025</div>
                   </div>
                   
                   <div className="tasks-grid">
                     <div className="tasks-list">
                       <h4>Today's Tasks</h4>
                       <div className="task-items">
-                        {tasks
-                          // .filter(task => new Date(task.dueDate) <= new Date())
-                          .map(task => (
+                        {tasks.map(task => (
                             <div key={task.id} className={`task-item ${task.status} ${task.priority}`}>
                               <div className="task-check">
                                 <input 
@@ -209,53 +525,35 @@ function CareGiverDashboard() {
                                   <span className="task-patient">{task.status}</span>
                                   <span className="task-priority">{task.dueDate}</span>
                                   <span className="task-priority">{task.email}</span>
-                                  <button  classsName="taskButton" style={{width:"140px"}} ><a href="http://localhost:3001/" target='blank' style={{color:"white",textDecoration:"none"}}>Notify</a></button>
+                                  <div className="task-actions">
+                                    <button 
+                                      className="call-button"
+                                      onClick={() => handleCall(task.id)}
+                                    >
+                                      <FaPhone /> Call
+                                    </button>
+
+                                    <button 
+                                      className="video-call-button"
+                                      onClick={() => handleVideoCall(task.id)}
+                                    >
+                                      <FaVideo /> Video
+                                    </button>
+
+                                    <button 
+                                      className="notify-button" 
+                                      onClick={() => handleNotify(task.id)}
+                                    >
+                                      <FaBell /> Notify
+                                    </button>
+                                  </div>
                                 </div> 
                               </div>
                             </div>
                           ))}
                       </div>
                     </div>
-                    
-              
                   </div>
-{/*                   
-                  <div className="upcoming-tasks">
-                    <h4>Upcoming Tasks</h4>
-                    <table className="data-table">
-                      <thead>
-                        <tr>
-                          <th>Patient</th>
-                          <th>Description</th>
-                          <th>Due Date</th>
-                          <th>Priority</th>
-                          <th>Status</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {tasks
-                          .filter(task => new Date(task.dueDate) > new Date())
-                          .map(task => (
-                            <tr key={task.id} className={task.status}>
-                              <td>{task.patientName}</td>
-                              <td>{task.description}</td>
-                              <td>{task.dueDate}</td>
-                              <td><span className={`priority-badge ${task.priority}`}>{task.priority}</span></td>
-                              <td><span className={`status-badge ${task.status}`}>{task.status}</span></td>
-                              <td>
-                                <button 
-                                  className="status-toggle-btn"
-                                  onClick={() => toggleTaskStatus(task.id)}
-                                >
-                                  {task.status === 'completed' ? 'Mark Pending' : 'Mark Complete'}
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                  </div> */}
                 </div>
               )}
               
@@ -264,21 +562,18 @@ function CareGiverDashboard() {
                   <BlogAdd/>
                 </div>
               )}
-   {activeView === 'calendar' && (
+              
+              {activeView === 'calendar' && (
                 <div className="placeholder-view">
-                    <AddSocialEvents/>
+                  <AddSocialEvents/>
                 </div>
               )}
 
-
-{activeView === 'alerts' && (
+              {activeView === 'alerts' && (
                 <div className="placeholder-view">
-                   <AppointMents/>
+                  <AppointMents/>
                 </div>
               )}
-
-              
-              
             </>
           )}
         </div>
