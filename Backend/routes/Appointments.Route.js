@@ -75,6 +75,26 @@ router.delete("/:appointmentId", async (req, res) => {
     res.status(400).send({ error: "Something went wrong, unable to Delete." });
   }
 });
+router.post("/update", async (req, res) => {
+  const { appointmentId } = req.body;
+  console.log(appointmentId,"appointmentId")
+  try {
+    // Using findByIdAndUpdate with proper syntax
+    const updation = await AppointmentModel.findByIdAndUpdate(
+      {_id:appointmentId},
+      { $set: { payment: "paid" } },
+      { new: true } // Return the updated document
+    );
+    
+    if (!updation) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+    
+    res.json(updation);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 
 router.get('/viewAppoinment',async (req,res)=>{
     try {

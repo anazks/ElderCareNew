@@ -19,10 +19,63 @@ import BlogAdd from '../user/BlogAdd';
 import AddSocialEvents from '../user/AddSocialEvents';
 import AppointMents from '../user/AppointMents';
 import { useNavigate } from 'react-router-dom';
+import BookingForm from '../user/BookingForm';
 
 function CareGiverDashboard() {
-  const navigate = useNavigate();
+  //  const [Loading, setLoading] = useState(false);
+   
+  const CommonProblem = [
+    { title: "Fever" },
+    { title: "Cold & Flu" },
+    { title: "Headache" },
+    { title: "Stomach Pain" },
+    { title: "Diabetes" },
+    { title: "Hypertension" },
+    { title: "Arthritis" },
+    { title: "Asthma" }
+  ];
 
+  const InitValue = {
+    patientName: "",
+    age: "",
+    gender: "",
+    mobile: "",
+    disease: "",
+    address: "",
+    email: "",
+    department: "",
+    date: "",
+    time: "",
+  };
+  const navigate = useNavigate();
+   const [BookAppoint, setBookAppoint] = useState(InitValue);
+  
+    const HandleAppointment = (e) => {
+      setBookAppoint({ ...BookAppoint, [e.target.name]: e.target.value });
+    };
+ 
+  const HandleOnsubmitAppointment = (e) => {
+    e.preventDefault();
+
+    if (BookAppoint.gender === "" || BookAppoint.department === "") {
+      return notify("Please fill all the Details");
+    }
+    setLoading(true);
+    
+    // Simulating dispatch actions since we don't have the actual implementation
+    // In a real app, you would use your actual dispatch functions
+    setTimeout(() => {
+      notify("Appointment Booked");
+      setLoading(false);
+      setBookAppoint(InitValue);
+    }, 1500);
+    localStorage.setItem("email", BookAppoint.email)
+    axios.post('http://localhost:5000/appointments/create', {BookAppoint}).then((response => {
+            console.log(response)
+    }))
+    window.open("http://localhost:3000/CareHome","_blank")
+  };
+  
   const [patients, setPatients] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [activeView, setActiveView] = useState('patients');
@@ -150,6 +203,7 @@ function CareGiverDashboard() {
 
   // Function to handle audio call
   const handleCall = async (taskId, videoEnabled = false) => {
+    window.open('http://localhost:3000/calling', '_blank');
     const task = tasks.find(t => t.id === taskId);
     if (!task) return;
     
@@ -160,7 +214,7 @@ function CareGiverDashboard() {
     
     try {
       // Call API to initiate call
-      const response = await axios.post('http://localhost:5000/calls/initiate', {
+      const response = await axios.post('http://localhost:3000/calls/initiate', {
         recipientName: task.patientName,
         recipientPhone: task.phone,
         recipientEmail: task.email,
@@ -478,7 +532,7 @@ function CareGiverDashboard() {
                               >
                                 <FaPhone />
                               </button>
-                              <button 
+                              {/* <button 
                                 className="action-button video-call"
                                 onClick={() => handleVideoCall({
                                   id: patient._id,
@@ -489,7 +543,7 @@ function CareGiverDashboard() {
                                 title="Video Call"
                               >
                                 <FaVideo />
-                              </button>
+                              </button> */}
                             </td>
                           </tr>
                         ))}
@@ -526,12 +580,12 @@ function CareGiverDashboard() {
                                   <span className="task-priority">{task.dueDate}</span>
                                   <span className="task-priority">{task.email}</span>
                                   <div className="task-actions">
-                                    <button 
+                                    {/* <button 
                                       className="call-button"
                                       onClick={() => handleCall(task.id)}
                                     >
                                       <FaPhone /> Call
-                                    </button>
+                                    </button> */}
 
                                     <button 
                                       className="video-call-button"
@@ -572,6 +626,178 @@ function CareGiverDashboard() {
               {activeView === 'alerts' && (
                 <div className="placeholder-view">
                   <AppointMents/>
+                  <section id="booking-form" className="booking-section">
+        <h2>Book  Appointment</h2>
+       
+
+        <form onSubmit={HandleOnsubmitAppointment} className="appointment-form">
+          <div className="form-row">
+            <div className="form-group">
+              <label>Patient Name</label>
+              <div className="inputdiv">
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  name="patientName"
+                  value={BookAppoint.patientName}
+                  onChange={HandleAppointment}
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Age</label>
+              <div className="inputdiv">
+                <input
+                  type="number"
+                  placeholder="Age"
+                  name="age"
+                  value={BookAppoint.age}
+                  onChange={HandleAppointment}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Gender</label>
+              <div className="inputdiv">
+                <select
+                  name="gender"
+                  value={BookAppoint.gender}
+                  onChange={HandleAppointment}
+                  required
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Contact Number</label>
+              <div className="inputdiv">
+                <input
+                  type="number"
+                  placeholder="Phone Number"
+                  name="mobile"
+                  value={BookAppoint.mobile}
+                  onChange={HandleAppointment}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Email</label>
+              <div className="inputdiv">
+                <input
+                  type="email"
+                  placeholder="example@email.com"
+                  name="email"
+                  value={BookAppoint.email}
+                  onChange={HandleAppointment}
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Type of Disease</label>
+              <div className="inputdiv">
+                <select
+                  name="disease"
+                  value={BookAppoint.disease}
+                  onChange={HandleAppointment}
+                  required
+                >
+                  <option value="">Select Disease</option>
+                  {CommonProblem.map((ele, i) => (
+                    <option key={i} value={ele.title}>
+                      {ele.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Address</label>
+              <div className="inputdiv">
+                <input
+                  type="text"
+                  placeholder="Address line 1"
+                  name="address"
+                  value={BookAppoint.address}
+                  onChange={HandleAppointment}
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Department</label>
+              <div className="inputdiv">
+                <select
+                  name="department"
+                  value={BookAppoint.department}
+                  onChange={HandleAppointment}
+                  required
+                >
+                  <option value="">Select Department</option>
+                  <option value="Cardiology">Cardiology</option>
+                  <option value="Neurology">Neurology</option>
+                  <option value="ENT">ENT</option>
+                  <option value="Ophthalmologist">Ophthalmologist</option>
+                  <option value="Anesthesiologist">Anesthesiologist</option>
+                  <option value="Dermatologist">Dermatologist</option>
+                  <option value="Oncologist">Oncologist</option>
+                  <option value="Psychiatrist">Psychiatrist</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="form-row dateofAppointment">
+            <div className="form-group">
+              <label>Date</label>
+              <div className="inputdiv">
+                <input
+                  type="date"
+                  placeholder="Choose Date"
+                  name="date"
+                  value={BookAppoint.date}
+                  onChange={HandleAppointment}
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Time</label>
+              <div className="inputdiv">
+                <input
+                  type="time"
+                  placeholder="Choose Time"
+                  name="time"
+                  value={BookAppoint.time}
+                  onChange={HandleAppointment}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" className="btn-submit">
+            {"Book Appointment"}
+          </button>
+        </form>
+      </section>
+                  {/* <BookingForm/> */}
                 </div>
               )}
             </>

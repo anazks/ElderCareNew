@@ -151,9 +151,7 @@ function Appointments() {
         </div>
         <nav className="nav">
           <ul>
-            <li><a href="#" className="active">Home</a></li>
-       
-
+            <li><a href="/" className="btn btn-danger">Logout</a></li>
           </ul>
         </nav>
       </header>
@@ -167,8 +165,8 @@ function Appointments() {
           <p>Book an appointment with our specialists today and take the first step towards better health.</p>
           <a href="#booking-form" className="btn-primary">Book Appointment</a>
           <a href="#status-checker" className="btn-secondary">Check Status</a> &nbsp;
-          <a href="" className="btn-secondary">View Transpotations </a>&nbsp;
-          <a href="#transpotation" className="btn-secondary">Book Me Hospital </a>
+          <a href="#transpotation" className="btn-secondary">View Transpotations </a>&nbsp;
+          <a href="#" className="btn-secondary">Book Me Hospital </a>
 
         </div>
       </section>
@@ -255,7 +253,7 @@ function Appointments() {
         )}
       </section>
 
-      <section id="booking-form" className="booking-section">
+      {/* <section id="booking-form" className="booking-section">
         <h2>Book Your Appointment</h2>
         <p>Fill out the form below and we will get back to you within 24 hours.</p>
 
@@ -425,7 +423,7 @@ function Appointments() {
             {Loading ? "Loading..." : "Book Appointment"}
           </button>
         </form>
-      </section>
+      </section> */}
       <selection id="transpotation">
                     <UserTravel  appointmentStatus={appointmentStatus}/>
 
