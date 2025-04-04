@@ -3,6 +3,10 @@ const { AppointmentModel } = require("../models/Appointment.model");
 
 const router = express.Router();
 
+router.get("/get/:id", async (req, res) => {
+    
+});
+
 router.get("/", async (req, res) => {
   let query = req.query;
   try {

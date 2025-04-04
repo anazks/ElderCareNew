@@ -290,12 +290,12 @@ function CareGiverDashboard() {
       }));
       
       // Open notification portal in new tab
-      window.open('http://localhost:3001/', '_blank');
+      window.open('http://localhost:3000/AudioCAll', '_blank');
     } catch (error) {
       console.error('Error sending notification:', error);
       
       // Still open the notification portal even if API call fails
-      window.open('http://localhost:3001/', '_blank');
+      window.open('http://localhost:3000/AudioCAll', '_blank');
     }
   };
 

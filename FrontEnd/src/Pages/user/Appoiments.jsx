@@ -134,13 +134,14 @@ function Appointments() {
       });
   };
 
-  // useEffect(()=>{
-  //     let email = localStorage.getItem("email")
-  //     if(email){
-  //       email = JSON.parse(email)
-  //     }
-  //     axios.get(`http://localhost:5000/cheStatus/${email}`)
-  // })
+  const vedioCall = ()=>{
+    try {
+        window.open("http://localhost:3000/calling","_blank")
+    } catch (error) {
+      
+    }
+  }
+ 
   return (
     <div className="appointment-page">
       <ToastContainer />
@@ -160,21 +161,25 @@ function Appointments() {
       <section className="hero">
         <div className="hero-content">
           <h1>Your Health Is Our Priority</h1>
-          <a href="#status-checker" className="btn-secondary" onClick={()=>AddTask()}>Add Daily Task</a> <br /> <br />
-          <a href="http://localhost:3001/" className="btn-secondary">Emergency Call</a>
+          <a href="#addTask" className="btn-secondary" onClick={()=>AddTask()}>Add Daily Task</a> <br /> <br />
+          <a className="btn-secondary" onClick={()=>vedioCall()}>Emergency Call</a>
 
           <p>Book an appointment with our specialists today and take the first step towards better health.</p>
           <a href="#booking-form" className="btn-primary">Book Appointment</a>
-          <a href="#status-checker" className="btn-secondary">Check Status</a>
-          <a href="#status-checker" className="btn-secondary">View Transpotations </a>
+          <a href="#status-checker" className="btn-secondary">Check Status</a> &nbsp;
+          <a href="" className="btn-secondary">View Transpotations </a>&nbsp;
+          <a href="#transpotation" className="btn-secondary">Book Me Hospital </a>
 
         </div>
       </section>
-
-      {
+<div id='addTask' className='taskForm'>
+      <h1>Add Daily Task</h1>
+    
+{
         teskDive ? <TaskForm/> : ""
       }
 
+</div>
       <section className="features">
         <div className="feature-card">
           <div className="feature-icon">🏥</div>
@@ -421,7 +426,7 @@ function Appointments() {
           </button>
         </form>
       </section>
-      <selection>
+      <selection id="transpotation">
                     <UserTravel  appointmentStatus={appointmentStatus}/>
 
                     <ViewTransportation/>

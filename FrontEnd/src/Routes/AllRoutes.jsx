@@ -24,6 +24,8 @@ import  CareHome from '../Pages/CareGiver/CareHome'
 import UploadDocs from "../Pages/Dashboard/Main-Dashboard/AllPages/Nurse/UploadDocs";
 import Mydocs from "../Components/projectRelated/Mydocs";
 import { useDispatch, useSelector } from "react-redux";
+import Calling from "../Pages/user/Calling";
+import AudioCall from "../Pages/user/AudioCall";
 
 const AllRoutes = () => {
   return (
@@ -45,6 +47,8 @@ const AllRoutes = () => {
         <Route  path="/addDocs" element={<UploadDocs/>}/>
         <Route path="/myDocs"   element={<Mydocs/>}/>
         <Route path="/RegUser"   element={<Add_Nurse/>}/>
+        <Route path="/calling"   element={<Calling/>}/>
+        <Route path="/AudioCAll" element={<AudioCall/>} />
 
         
 
